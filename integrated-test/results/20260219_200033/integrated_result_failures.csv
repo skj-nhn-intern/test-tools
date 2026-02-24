@@ -1,0 +1,150 @@
+Method,Name,Error,Occurrences
+GET,GET /api/health/,RemoteDisconnected('Remote end closed connection without response'),158
+GET,GET /api/health/,HTTPError('503 Server Error: Service Unavailable for url: GET /api/health/'),30877
+GET,GET /assets/*.js,"OSError(51, 'Network is unreachable')",62
+GET,GET /api/photos/{photo_id},HTTPError('401 Client Error: Unauthorized for url: GET /api/photos/{photo_id}'),10110
+GET,GET /api/health/readiness,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/health/readiness'),78
+GET,GET /api/share/{token}/photos/{photo_id}/image,RemoteDisconnected('Remote end closed connection without response'),49
+GET,GET /api/health/readiness,HTTPError('500 Server Error: Internal Server Error for url: GET /api/health/readiness'),111
+POST,POST /api/auth/login (on_start),HTTPError('503 Server Error: Service Unavailable for url: POST /api/auth/login (on_start)'),1744
+GET,GET /api/health/detailed,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/health/detailed'),64
+GET,GET /api/albums/,"TimeoutError(60, 'Operation timed out')",749
+GET,GET /api/health/liveness,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/health/liveness'),67
+GET,GET /api/albums/,HTTPError('401 Client Error: Unauthorized for url: GET /api/albums/'),20392
+GET,GET /api/share/{token}/photos/{photo_id}/image,HTTPError('500 Server Error: Internal Server Error for url: GET /api/share/{token}/photos/{photo_id}/image'),3598
+POST,POST /api/auth/register (on_start),"ConnectionResetError(54, 'Connection reset by peer')",9
+GET,GET /favicon.ico,"OSError(51, 'Network is unreachable')",20
+POST,POST /api/albums/,HTTPError('401 Client Error: Unauthorized for url: POST /api/albums/'),3357
+GET,GET /api/health/readiness,"TimeoutError(60, 'Operation timed out')",124
+GET,GET /api/photos/{photo_id},HTTPError('504 Server Error: Gateway Time-out for url: GET /api/photos/{photo_id}'),231
+GET,GET /api/albums/,RemoteDisconnected('Remote end closed connection without response'),264
+GET,GET /api/photos/{photo_id}/image,RemoteDisconnected('Remote end closed connection without response'),88
+GET,GET /api/photos/{photo_id},RemoteDisconnected('Remote end closed connection without response'),136
+GET,GET /assets/*.css,RemoteDisconnected('Remote end closed connection without response'),119
+GET,GET /api/health/liveness,"OSError(51, 'Network is unreachable')",18
+GET,GET /api/photos/{photo_id}/image,HTTPError('503 Server Error: Service Unavailable for url: GET /api/photos/{photo_id}/image'),13102
+GET,GET /api/albums/,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/albums/'),466
+GET,GET /api/photos/{photo_id}/image,HTTPError('404 Client Error: Not Found for url: GET /api/photos/{photo_id}/image'),472
+GET,GET /api/,RemoteDisconnected('Remote end closed connection without response'),58
+GET,GET /api/auth/me,HTTPError('500 Server Error: Internal Server Error for url: GET /api/auth/me'),291
+POST,POST /api/auth/login (on_start),HTTPError('401 Client Error: Unauthorized for url: POST /api/auth/login (on_start)'),60
+GET,GET /api/share/{token},HTTPError('500 Server Error: Internal Server Error for url: GET /api/share/{token}'),7317
+GET,GET /api/health/,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/health/'),272
+GET,GET /favicon.ico,HTTPError('503 Server Error: Service Unavailable for url: GET /favicon.ico'),1393
+POST,POST /api/photos/presigned-url,"TimeoutError(60, 'Operation timed out')",131
+POST,POST /api/albums/,HTTPError('502 Server Error: Bad Gateway for url: POST /api/albums/'),148
+GET,GET /assets/*.js,"TimeoutError(60, 'Operation timed out')",630
+GET,GET /api/health/liveness,HTTPError('500 Server Error: Internal Server Error for url: GET /api/health/liveness'),113
+GET,GET /api/photos/,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/photos/'),416
+POST,POST /api/albums/,RemoteDisconnected('Remote end closed connection without response'),34
+GET,GET /api/,"TimeoutError(60, 'Operation timed out')",143
+POST,POST /api/auth/login (on_start),HTTPError('500 Server Error: Internal Server Error for url: POST /api/auth/login (on_start)'),16
+POST,POST /api/photos/presigned-url,HTTPError('401 Client Error: Unauthorized for url: POST /api/photos/presigned-url'),3315
+GET,GET /api/photos/{photo_id},HTTPError('503 Server Error: Service Unavailable for url: GET /api/photos/{photo_id}'),19927
+GET,GET /api/auth/me,"TimeoutError(60, 'Operation timed out')",388
+GET,GET /api/health/readiness,HTTPError('503 Server Error: Service Unavailable for url: GET /api/health/readiness'),7611
+GET,GET /  (SPA index),RemoteDisconnected('Remote end closed connection without response'),332
+GET,GET /api/share/{token}/photos/{photo_id}/image,"TimeoutError(60, 'Operation timed out')",129
+GET,GET /api/photos/{photo_id},"TimeoutError(60, 'Operation timed out')",404
+GET,GET /api/albums/{album_id},HTTPError('503 Server Error: Service Unavailable for url: GET /api/albums/{album_id}'),19539
+GET,GET /api/share/{token},RemoteDisconnected('Remote end closed connection without response'),82
+GET,GET /api/auth/me,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/auth/me'),221
+GET,GET /api/health/,"TimeoutError(60, 'Operation timed out')",551
+GET,GET /api/share/{token},"OSError(51, 'Network is unreachable')",20
+POST,POST /api/photos/presigned-url,"OSError(51, 'Network is unreachable')",11
+GET,GET /api/photos/,HTTPError('500 Server Error: Internal Server Error for url: GET /api/photos/'),591
+POST,POST /api/auth/register (on_start),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/auth/register (on_start)'),38
+GET,GET /api/health/detailed,HTTPError('503 Server Error: Service Unavailable for url: GET /api/health/detailed'),7606
+POST,POST /api/photos/presigned-url,HTTPError('404 Client Error: Not Found for url: POST /api/photos/presigned-url'),53
+GET,GET /api/albums/,HTTPError('500 Server Error: Internal Server Error for url: GET /api/albums/'),631
+GET,GET /api/health/readiness,"OSError(51, 'Network is unreachable')",13
+POST,POST /api/albums/,HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/'),66
+GET,GET /assets/*.css,"TimeoutError(60, 'Operation timed out')",416
+POST,POST /api/photos/presigned-url,RemoteDisconnected('Remote end closed connection without response'),33
+GET,GET /share/{token},"TimeoutError(60, 'Operation timed out')",425
+GET,GET /api/albums/{album_id},HTTPError('504 Server Error: Gateway Time-out for url: GET /api/albums/{album_id}'),211
+POST,POST /api/albums/,HTTPError('500 Server Error: Internal Server Error for url: POST /api/albums/'),101
+POST,POST /api/photos/presigned-url,HTTPError('502 Server Error: Bad Gateway for url: POST /api/photos/presigned-url'),136
+GET,GET /  (SPA index),HTTPError('503 Server Error: Service Unavailable for url: GET /  (SPA index)'),5849
+GET,GET /favicon.ico,RemoteDisconnected('Remote end closed connection without response'),74
+POST,POST /api/auth/register (on_start),HTTPError('502 Server Error: Bad Gateway for url: POST /api/auth/register (on_start)'),47
+POST,POST /api/auth/register (on_start),HTTPError('400 Client Error: Bad Request for url: POST /api/auth/register (on_start)'),326
+POST,POST /api/photos/presigned-url,HTTPError('503 Server Error: Service Unavailable for url: POST /api/photos/presigned-url'),6466
+GET,GET /api/albums/{album_id},HTTPError('401 Client Error: Unauthorized for url: GET /api/albums/{album_id}'),10349
+GET,GET /api/photos/{photo_id}/image,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/photos/{photo_id}/image'),122
+POST,POST /api/photos/presigned-url,HTTPError('504 Server Error: Gateway Time-out for url: POST /api/photos/presigned-url'),54
+GET,GET /api/auth/me,HTTPError('503 Server Error: Service Unavailable for url: GET /api/auth/me'),19526
+POST,POST /api/albums/,"ConnectionResetError(54, 'Connection reset by peer')",98
+POST,POST /api/auth/register (on_start),HTTPError('503 Server Error: Service Unavailable for url: POST /api/auth/register (on_start)'),2112
+GET,GET /api/photos/{photo_id}/image,HTTPError('401 Client Error: Unauthorized for url: GET /api/photos/{photo_id}/image'),6910
+POST,POST /api/auth/login (on_start),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/auth/login (on_start)'),636
+GET,GET /share/{token},HTTPError('500 Server Error: Internal Server Error for url: GET /share/{token}'),565
+GET,GET /api/health/liveness,"TimeoutError(60, 'Operation timed out')",142
+GET,GET /  (SPA index),"OSError(51, 'Network is unreachable')",111
+GET,GET /share/{token},HTTPError('503 Server Error: Service Unavailable for url: GET /share/{token}'),2256
+GET,GET /assets/*.js,RemoteDisconnected('Remote end closed connection without response'),224
+GET,GET /api/share/{token}/photos/{photo_id}/image,HTTPError('503 Server Error: Service Unavailable for url: GET /api/share/{token}/photos/{photo_id}/image'),6617
+GET,GET /api/photos/,"OSError(51, 'Network is unreachable')",83
+GET,GET /api/photos/,RemoteDisconnected('Remote end closed connection without response'),226
+GET,GET /api/health/detailed,"TimeoutError(60, 'Operation timed out')",152
+GET,GET /api/photos/{photo_id}/image,HTTPError('500 Server Error: Internal Server Error for url: GET /api/photos/{photo_id}/image'),204
+POST,POST /api/auth/login (after_register),HTTPError('502 Server Error: Bad Gateway for url: POST /api/auth/login (after_register)'),1
+GET,GET /api/photos/{photo_id}/image,"OSError(51, 'Network is unreachable')",27
+POST,POST /api/auth/register (on_start),RemoteDisconnected('Remote end closed connection without response'),18
+GET,GET /assets/*.css,"OSError(51, 'Network is unreachable')",36
+POST,POST /api/auth/login (on_start),RemoteDisconnected('Remote end closed connection without response'),79
+GET,GET /api/photos/{photo_id},"OSError(51, 'Network is unreachable')",39
+GET,GET /api/share/{token},HTTPError('504 Server Error: Gateway Time-out for url: GET /api/share/{token}'),151
+GET,GET /api/photos/,"TimeoutError(60, 'Operation timed out')",735
+GET,GET /api/share/{token}/photos/{photo_id}/image,"OSError(51, 'Network is unreachable')",6
+GET,GET /api/albums/{album_id},RemoteDisconnected('Remote end closed connection without response'),118
+GET,GET /api/auth/me,HTTPError('401 Client Error: Unauthorized for url: GET /api/auth/me'),10428
+GET,GET /api/,HTTPError('503 Server Error: Service Unavailable for url: GET /api/'),6691
+GET,GET /api/health/readiness,RemoteDisconnected('Remote end closed connection without response'),54
+GET,GET /api/share/{token}/photos/{photo_id}/image,HTTPError('404 Client Error: Not Found for url: GET /api/share/{token}/photos/{photo_id}/image'),308
+GET,GET /assets/*.css,HTTPError('404 Client Error: Not Found for url: GET /assets/*.css'),28978
+GET,GET /api/share/{token},HTTPError('503 Server Error: Service Unavailable for url: GET /api/share/{token}'),13219
+GET,GET /assets/*.js,HTTPError('503 Server Error: Service Unavailable for url: GET /assets/*.js'),3744
+GET,GET /api/photos/{photo_id},HTTPError('500 Server Error: Internal Server Error for url: GET /api/photos/{photo_id}'),319
+GET,GET /assets/*.js,HTTPError('404 Client Error: Not Found for url: GET /assets/*.js'),48630
+GET,GET /api/photos/,HTTPError('503 Server Error: Service Unavailable for url: GET /api/photos/'),39329
+GET,GET /api/albums/{album_id},HTTPError('500 Server Error: Internal Server Error for url: GET /api/albums/{album_id}'),283
+POST,POST /api/albums/,HTTPError('503 Server Error: Service Unavailable for url: POST /api/albums/'),6551
+GET,GET /api/share/{token}/photos/{photo_id}/image,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/share/{token}/photos/{photo_id}/image'),71
+GET,GET /favicon.ico,HTTPError('404 Client Error: Not Found for url: GET /favicon.ico'),19311
+GET,GET /api/auth/me,"OSError(51, 'Network is unreachable')",27
+GET,GET /api/albums/{album_id},"OSError(51, 'Network is unreachable')",40
+GET,GET /share/{token},"OSError(51, 'Network is unreachable')",54
+GET,GET /share/{token},RemoteDisconnected('Remote end closed connection without response'),110
+GET,GET /  (SPA index),"TimeoutError(60, 'Operation timed out')",1042
+GET,GET /api/photos/{photo_id}/image,"TimeoutError(60, 'Operation timed out')",267
+GET,GET /assets/*.css,HTTPError('503 Server Error: Service Unavailable for url: GET /assets/*.css'),2226
+GET,GET /api/albums/{album_id},"TimeoutError(60, 'Operation timed out')",393
+POST,POST /api/auth/login (after_register),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/auth/login (after_register)'),1
+GET,GET /api/health/,HTTPError('500 Server Error: Internal Server Error for url: GET /api/health/'),409
+GET,GET /api/health/detailed,RemoteDisconnected('Remote end closed connection without response'),34
+GET,GET /api/health/detailed,HTTPError('500 Server Error: Internal Server Error for url: GET /api/health/detailed'),96
+GET,GET /api/health/detailed,"OSError(51, 'Network is unreachable')",15
+GET,GET /api/auth/me,RemoteDisconnected('Remote end closed connection without response'),149
+GET,GET /api/share/{token},"TimeoutError(60, 'Operation timed out')",297
+GET,GET /api/photos/{photo_id},HTTPError('404 Client Error: Not Found for url: GET /api/photos/{photo_id}'),762
+GET,GET /api/health/liveness,RemoteDisconnected('Remote end closed connection without response'),39
+GET,GET /api/,HTTPError('504 Server Error: Gateway Time-out for url: GET /api/'),46
+GET,GET /favicon.ico,"TimeoutError(60, 'Operation timed out')",270
+GET,GET /api/share/{token},HTTPError('404 Client Error: Not Found for url: GET /api/share/{token}'),307
+POST,POST /api/auth/login (on_start),HTTPError('502 Server Error: Bad Gateway for url: POST /api/auth/login (on_start)'),29
+POST,POST /api/photos/presigned-url,"ConnectionResetError(54, 'Connection reset by peer')",113
+GET,GET /api/health/,"OSError(51, 'Network is unreachable')",53
+GET,GET /api/,"OSError(51, 'Network is unreachable')",7
+GET,GET /api/albums/,"OSError(51, 'Network is unreachable')",86
+GET,GET /api/albums/{album_id},HTTPError('404 Client Error: Not Found for url: GET /api/albums/{album_id}'),135
+GET,GET /api/,HTTPError('500 Server Error: Internal Server Error for url: GET /api/'),106
+GET,GET /api/photos/,HTTPError('401 Client Error: Unauthorized for url: GET /api/photos/'),20439
+POST,POST /api/auth/login (on_start),"TimeoutError(60, 'Operation timed out')",10
+POST,POST /api/auth/register (on_start),HTTPError('500 Server Error: Internal Server Error for url: POST /api/auth/register (on_start)'),5
+GET,GET /  (SPA index),HTTPError('500 Server Error: Internal Server Error for url: GET /  (SPA index)'),1589
+POST,POST /api/albums/,"OSError(51, 'Network is unreachable')",14
+POST,POST /api/albums/,"TimeoutError(60, 'Operation timed out')",136
+GET,GET /api/albums/,HTTPError('503 Server Error: Service Unavailable for url: GET /api/albums/'),39523
+POST,POST /api/photos/presigned-url,HTTPError('500 Server Error: Internal Server Error for url: POST /api/photos/presigned-url'),303
+GET,GET /api/health/liveness,HTTPError('503 Server Error: Service Unavailable for url: GET /api/health/liveness'),6501
