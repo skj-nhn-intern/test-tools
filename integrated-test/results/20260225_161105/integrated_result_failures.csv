@@ -1,0 +1,51 @@
+Method,Name,Error,Occurrences
+GET,GET /api/share/{token},CatchResponseError('status 504'),6
+GET,GET /api/photos/,CatchResponseError('status 504'),18
+GET,GET /api/share/{token},CatchResponseError('status 500'),838
+POST,POST /api/auth/login (on_start),CatchResponseError('status 504'),160
+GET,GET /api/albums/,CatchResponseError('status 401'),2704
+GET,GET /api/albums/ (for share),CatchResponseError('status 401'),416
+GET,GET /api/health/,CatchResponseError('status 504'),15
+GET,GET /api/photos/ (list for download),CatchResponseError('status 401'),900
+GET,GET /api/albums/ (for share),CatchResponseError('status 504'),2
+GET,GET /api/photos/ (list for download),CatchResponseError('status 503'),261
+POST,POST /api/albums/{id}/share (on_start),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/{id}/share (on_start)'),1
+POST,POST /api/photos/presigned-url,CatchResponseError('Album not found'),19
+GET,GET /api/photos/{photo_id},CatchResponseError('status 504'),6
+POST,POST /api/photos/presigned-url,CatchResponseError('Unauthorized - token may be invalid'),418
+GET,GET /api/share/{token}/photos/{photo_id}/image,CatchResponseError('status 503'),136
+GET,GET /api/health/detailed,CatchResponseError('status 504'),5
+GET,GET /api/albums/{album_id},CatchResponseError('status 503'),382
+GET,GET /api/albums/,CatchResponseError('status 504'),16
+GET,GET /api/albums/{album_id},CatchResponseError('status 401'),1281
+GET,GET /api/health/readiness,CatchResponseError('status 504'),5
+GET,GET /api/albums/{album_id},CatchResponseError('status 504'),12
+GET,GET /api/photos/{photo_id},CatchResponseError('status 401'),1397
+GET,GET /api/,CatchResponseError('status 504'),1
+GET,GET /api/health/liveness,CatchResponseError('status 503'),143
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 503'),147
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 504'),1
+POST,POST /api/albums/ (on_start share),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/ (on_start share)'),39
+GET,GET /api/health/readiness,CatchResponseError('status 503'),128
+GET,GET /api/albums/ (for share),CatchResponseError('status 503'),147
+GET,GET /api/auth/me,CatchResponseError('status 503'),404
+GET,GET /api/photos/{photo_id},CatchResponseError('status 503'),437
+GET,GET /api/photos/ (list for download),CatchResponseError('status 504'),3
+GET,GET /api/share/{token}/photos/{photo_id}/image,CatchResponseError('status 500'),430
+GET,GET /api/share/{token},CatchResponseError('status 503'),268
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 504'),1
+GET,GET /api/health/,CatchResponseError('status 503'),568
+GET,GET /api/photos/,CatchResponseError('status 401'),2768
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 401'),847
+GET,GET /api/health/detailed,CatchResponseError('status 503'),131
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 503'),122
+GET,GET /api/photos/,CatchResponseError('status 503'),822
+GET,GET /api/,CatchResponseError('status 503'),140
+POST,POST /api/albums/,CatchResponseError('Unauthorized - token may be invalid'),433
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 504'),2
+GET,GET /api/auth/me,CatchResponseError('status 401'),1424
+GET,GET /api/albums/,CatchResponseError('status 503'),867
+POST,POST /api/auth/register (on_start),CatchResponseError('status 503'),160
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 503'),292
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 502'),2
+GET,GET /api/auth/me,CatchResponseError('status 504'),5

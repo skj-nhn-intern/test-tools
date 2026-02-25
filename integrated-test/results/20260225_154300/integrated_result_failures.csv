@@ -1,0 +1,40 @@
+Method,Name,Error,Occurrences
+GET,GET /api/share/{token},CatchResponseError('status 504'),2
+GET,GET /api/photos/,CatchResponseError('status 504'),1
+POST,POST /api/auth/login (on_start),CatchResponseError('status 504'),30
+GET,GET /api/health/,CatchResponseError('status 504'),1
+POST,POST /api/auth/login (after_register),CatchResponseError('status 504'),10
+POST,POST /api/auth/login (after_register),CatchResponseError('invalid login response'),1
+GET,GET /api/photos/ (list for download),CatchResponseError('status 503'),317
+POST,POST /api/auth/login (on_start),CatchResponseError('invalid login response'),1
+GET,GET /api/photos/{photo_id},CatchResponseError('status 504'),1
+GET,GET /api/share/{token}/photos/{photo_id}/image,CatchResponseError('status 503'),169
+GET,GET /api/albums/{album_id},CatchResponseError('status 503'),472
+POST,POST /api/albums/ (on_start share),HTTPError('502 Server Error: Bad Gateway for url: POST /api/albums/ (on_start share)'),1
+GET,GET /api/albums/,CatchResponseError('status 504'),2
+GET,GET /api/albums/{album_id},CatchResponseError('status 504'),1
+POST,POST /api/auth/login (after_register),CatchResponseError('status 502'),6
+GET,GET /api/health/liveness,CatchResponseError('status 503'),165
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 503'),158
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 504'),1
+POST,POST /api/albums/ (on_start share),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/ (on_start share)'),31
+GET,GET /api/health/readiness,CatchResponseError('status 503'),176
+GET,GET /api/albums/ (for share),CatchResponseError('status 503'),177
+GET,GET /api/auth/me,CatchResponseError('status 503'),461
+GET,GET /api/photos/{photo_id},CatchResponseError('status 503'),470
+GET,GET /api/photos/ (list for download),CatchResponseError('status 504'),1
+POST,POST /api/auth/register (on_start),CatchResponseError('status 502'),7
+GET,GET /api/share/{token},CatchResponseError('status 503'),328
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 504'),1
+GET,GET /api/health/,CatchResponseError('status 503'),669
+GET,GET /api/health/detailed,CatchResponseError('status 503'),146
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 503'),173
+GET,GET /api/photos/,CatchResponseError('status 503'),975
+GET,GET /api/,CatchResponseError('status 503'),145
+POST,POST /api/auth/register (on_start),CatchResponseError('status 504'),13
+POST,POST /api/auth/login (on_start),CatchResponseError('status 401'),40
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 504'),1
+GET,GET /api/albums/,CatchResponseError('status 503'),1038
+POST,POST /api/auth/register (on_start),CatchResponseError('status 503'),31
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 503'),350
+GET,GET /api/auth/me,CatchResponseError('status 504'),2

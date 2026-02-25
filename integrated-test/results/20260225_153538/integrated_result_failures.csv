@@ -1,0 +1,24 @@
+Method,Name,Error,Occurrences
+GET,GET /favicon.ico,CatchResponseError('status 0'),12
+GET,GET /  (SPA index),CatchResponseError('status 0'),67
+GET,GET /api/share/{token},CatchResponseError('status 0'),19
+GET,GET /api/health/readiness,CatchResponseError('status 0'),4
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 0'),10
+GET,GET /api/photos/ (list for download),CatchResponseError('status 0'),17
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 0'),8
+GET,GET /share/{token},CatchResponseError('status 0'),33
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 0'),7
+GET,GET /api/health/detailed,CatchResponseError('status 0'),5
+GET,GET /assets/*.css,CatchResponseError('status 0'),22
+GET,GET /api/,CatchResponseError('status 0'),12
+GET,GET /api/albums/{album_id},CatchResponseError('status 0'),19
+GET,GET /assets/*.js,CatchResponseError('status 0'),50
+POST,POST /api/auth/login (on_start),CatchResponseError('status 0'),100
+GET,GET /api/photos/{photo_id},CatchResponseError('status 0'),26
+GET,GET /api/albums/,CatchResponseError('status 0'),46
+GET,GET /api/share/{token}/photos/{photo_id}/image,CatchResponseError('status 0'),6
+GET,GET /api/health/liveness,CatchResponseError('status 0'),6
+GET,GET /api/photos/,CatchResponseError('status 0'),54
+GET,GET /api/auth/me,CatchResponseError('status 0'),20
+GET,GET /api/albums/ (for share),CatchResponseError('status 0'),8
+GET,GET /api/health/,CatchResponseError('status 0'),45

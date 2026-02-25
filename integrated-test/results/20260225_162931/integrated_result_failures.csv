@@ -1,0 +1,3 @@
+Method,Name,Error,Occurrences
+POST,POST /api/albums/ (on_start share),HTTPError('502 Server Error: Bad Gateway for url: POST /api/albums/ (on_start share)'),10
+POST,POST /api/auth/login (on_start),CatchResponseError('status 502'),6

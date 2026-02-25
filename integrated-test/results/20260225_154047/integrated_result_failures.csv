@@ -1,0 +1,14 @@
+Method,Name,Error,Occurrences
+GET,GET /api/share/{token},CatchResponseError('status 500'),3
+GET,GET /api/albums/,CatchResponseError('status 401'),67
+GET,GET /api/albums/ (for share),CatchResponseError('status 401'),12
+GET,GET /api/photos/ (list for download),CatchResponseError('status 401'),25
+POST,POST /api/photos/presigned-url,CatchResponseError('Unauthorized - token may be invalid'),8
+GET,GET /api/albums/{album_id},CatchResponseError('status 401'),49
+GET,GET /api/photos/{photo_id},CatchResponseError('status 401'),41
+GET,GET /api/share/{token}/photos/{photo_id}/image,CatchResponseError('status 500'),1
+GET,GET /api/photos/,CatchResponseError('status 401'),81
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 401'),28
+POST,POST /api/albums/,CatchResponseError('Unauthorized - token may be invalid'),10
+POST,POST /api/auth/login (on_start),CatchResponseError('status 401'),100
+GET,GET /api/auth/me,CatchResponseError('status 401'),39

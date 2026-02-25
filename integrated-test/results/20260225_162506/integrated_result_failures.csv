@@ -1,0 +1,42 @@
+Method,Name,Error,Occurrences
+GET,GET /api/photos/,CatchResponseError('status 504'),3
+POST,POST /api/auth/login (on_start),CatchResponseError('status 504'),30
+GET,GET /api/albums/,CatchResponseError('status 401'),70
+GET,GET /api/albums/ (for share),CatchResponseError('status 401'),14
+GET,GET /api/health/,CatchResponseError('status 504'),1
+GET,GET /api/photos/ (list for download),CatchResponseError('status 401'),29
+GET,GET /api/photos/ (list for download),CatchResponseError('status 503'),439
+POST,POST /api/albums/{id}/share (on_start),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/{id}/share (on_start)'),2
+POST,POST /api/photos/presigned-url,CatchResponseError('Album not found'),32
+POST,POST /api/photos/presigned-url,CatchResponseError('Unauthorized - token may be invalid'),17
+GET,GET /api/health/detailed,CatchResponseError('status 504'),2
+GET,GET /api/albums/{album_id},CatchResponseError('status 503'),662
+POST,POST /api/albums/ (on_start share),HTTPError('502 Server Error: Bad Gateway for url: POST /api/albums/ (on_start share)'),6
+GET,GET /api/albums/,CatchResponseError('status 504'),4
+GET,GET /api/albums/{album_id},CatchResponseError('status 401'),33
+GET,GET /api/health/readiness,CatchResponseError('status 504'),1
+GET,GET /api/albums/{album_id},CatchResponseError('status 504'),1
+GET,GET /api/photos/{photo_id},CatchResponseError('status 401'),49
+POST,POST /api/auth/login (on_start),CatchResponseError('status 502'),5
+GET,GET /api/,CatchResponseError('status 504'),1
+GET,GET /api/health/liveness,CatchResponseError('status 503'),196
+POST,POST /api/photos/presigned-url,CatchResponseError('Unexpected status code: 503'),240
+POST,POST /api/albums/ (on_start share),HTTPError('504 Server Error: Gateway Time-out for url: POST /api/albums/ (on_start share)'),56
+GET,GET /api/health/readiness,CatchResponseError('status 503'),208
+GET,GET /api/albums/ (for share),CatchResponseError('status 503'),202
+GET,GET /api/auth/me,CatchResponseError('status 503'),668
+GET,GET /api/photos/{photo_id},CatchResponseError('status 503'),665
+POST,POST /api/albums/ (on_start share),HTTPError('503 Server Error: Service Unavailable for url: POST /api/albums/ (on_start share)'),1
+GET,GET /api/health/,CatchResponseError('status 503'),866
+GET,GET /api/photos/,CatchResponseError('status 401'),78
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 401'),26
+GET,GET /api/health/detailed,CatchResponseError('status 503'),220
+POST,POST /api/albums/,CatchResponseError('Unexpected status code: 503'),199
+GET,GET /api/photos/,CatchResponseError('status 503'),1278
+GET,GET /api/,CatchResponseError('status 503'),206
+POST,POST /api/auth/register (on_start),CatchResponseError('status 504'),35
+POST,POST /api/albums/,CatchResponseError('Unauthorized - token may be invalid'),16
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 504'),2
+GET,GET /api/auth/me,CatchResponseError('status 401'),40
+GET,GET /api/albums/,CatchResponseError('status 503'),1215
+GET,GET /api/photos/{photo_id}/image,CatchResponseError('status 503'),406

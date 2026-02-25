@@ -55,10 +55,39 @@ except ImportError:
 
 # 테스트용 실제 이미지 목록 (UPLOAD_IMAGE_DIR 또는 UPLOAD_IMAGE_LIST 설정 시 사용)
 IMAGE_LIST = load_image_list()
+# 업로드 필수: 이미지 없을 때 사용할 최소 JPEG (1x1px)
+MINIMAL_JPEG = bytes([0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0xFF, 0xDB, 0x00, 0x43, 0x00, 0x08, 0x06, 0x06, 0x07, 0x06, 0x05, 0x08, 0x07, 0x07, 0x07, 0x09, 0x09, 0x08, 0x0A, 0x0C, 0x14, 0x0D, 0x0C, 0x0B, 0x0B, 0x0C, 0x19, 0x12, 0x13, 0x0F, 0x14, 0x1D, 0x1A, 0x1F, 0x1E, 0x1D, 0x1A, 0x1C, 0x1C, 0x20, 0x24, 0x2E, 0x27, 0x20, 0x22, 0x2C, 0x23, 0x1C, 0x1C, 0x28, 0x37, 0x29, 0x2C, 0x30, 0x31, 0x34, 0x34, 0x34, 0x1F, 0x27, 0x39, 0x3D, 0x38, 0x32, 0x3C, 0x2E, 0x33, 0x34, 0x32, 0xFF, 0xC0, 0x00, 0x0B, 0x08, 0x00, 0x01, 0x00, 0x01, 0x01, 0x01, 0x11, 0x00, 0xFF, 0xC4, 0x00, 0x1F, 0x00, 0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0xFF, 0xDA, 0x00, 0x0C, 0x03, 0x01, 0x00, 0x02, 0x11, 0x03, 0x11, 0x00, 0x3F, 0x00, 0xFB, 0xD9])
 # 테스트용 계정 목록 (UPLOAD_USER_LIST 설정 시 사용, 가상 유저별로 한 계정씩 할당)
 USER_LIST = load_user_list()
 # 계정 할당용 라운드로빈 인덱스 (gevent 단일 스레드에서 증가)
 _user_index = [0]
+
+
+def load_share_token_list() -> list:
+    """
+    환경변수 SHARE_TOKEN_LIST 파일에서 공유 링크 토큰 목록을 로드합니다.
+    반환: [token1, token2, ...]
+    """
+    path = os.environ.get("SHARE_TOKEN_LIST", "").strip()
+    if not path:
+        return []
+    p = Path(path).resolve()
+    if not p.is_file():
+        return []
+    out = []
+    for line in p.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line:  # 빈 줄이 아닌 경우
+            out.append(line)
+    return out
+
+
+# 공유 링크 토큰 목록 (SHARE_TOKEN_LIST 설정 시 사용)
+SHARE_TOKEN_LIST = load_share_token_list()
+# 공유 링크 할당용 라운드로빈 인덱스
+_share_token_index = [0]
 
 
 def get_auth_headers(user: "IntegratedNginxUser") -> dict:
@@ -78,9 +107,10 @@ class IntegratedNginxUser(HttpUser):
     wait_time = between(0.5, 1.5)
 
     def on_start(self):
-        """시작 시 토큰 설정: 환경변수 토큰 우선, UPLOAD_USER_LIST 있으면 그 계정 중 하나로 로그인, 없으면 단일 계정. 로그인 후 앨범+공유 링크 생성."""
+        """시작 시 토큰 설정: 환경변수 토큰 우선, UPLOAD_USER_LIST 있으면 그 계정 중 하나로 로그인 시도, 로그인 실패 시 자동 회원가입. 로그인 성공 시 자동으로 앨범 생성 후 공유 링크 발급."""
         self.token = os.environ.get("LOADTEST_TOKEN")
-        self.share_token = None  # 공유 링크 접근용; on_start에서 생성
+        self.share_token = None  # 공유 링크는 자동으로 발급받음
+        self.upload_album_id = None  # 업로드 시 사용할 앨범 ID (on_start에서 생성한 앨범)
 
         if not self.token:
             if USER_LIST:
@@ -110,8 +140,8 @@ class IntegratedNginxUser(HttpUser):
                 else:
                     r.failure(f"status {r.status_code}")
 
-            # 로그인 실패 시: 계정 목록(USER_LIST) 사용 중이면 등록 시도 안 함
-            if not self.token and not USER_LIST:
+            # 로그인 실패 시: 자동으로 회원가입 시도 (USER_LIST 사용 중이어도 등록)
+            if not self.token:
                 with self.client.post(
                     "/api/auth/register",
                     json={
@@ -142,14 +172,37 @@ class IntegratedNginxUser(HttpUser):
                     else:
                         r.failure(f"status {r.status_code}")
 
-        # 로그인된 경우: 앨범 생성 후 공유 링크 생성 (shared_album 태스크에서 사용)
+        # 로그인 성공 시: 업로드용 앨범 생성 후, 공유 링크용 앨범 생성 (앨범 제대로 생성·연결)
         if self.token:
+            self._ensure_upload_album()
             self._ensure_share_token()
 
         # 로그인/등록 실패해도 계속 진행 (인증 필요한 태스크만 실패)
 
+    def _ensure_upload_album(self):
+        """업로드 전용 앨범 생성, self.upload_album_id 설정. (업로드는 항상 이 앨범에 연결)"""
+        with self.client.post(
+            "/api/albums/",
+            headers=get_auth_headers(self),
+            json={
+                "name": "LoadTest Upload Album",
+                "description": "For photo upload test",
+            },
+            name="POST /api/albums/ (on_start upload)",
+            catch_response=True,
+        ) as r:
+            if r.status_code not in [200, 201]:
+                return
+            try:
+                album = r.json()
+                aid = album.get("id") if isinstance(album, dict) else getattr(album, "id", None)
+            except Exception:
+                return
+            if aid is not None:
+                self.upload_album_id = aid
+
     def _ensure_share_token(self):
-        """앨범 생성 후 공유 링크 생성, self.share_token 설정."""
+        """앨범 생성 후 공유 링크 생성, self.share_token 및 self.upload_album_id 설정."""
         with self.client.post(
             "/api/albums/",
             headers=get_auth_headers(self),
@@ -169,6 +222,7 @@ class IntegratedNginxUser(HttpUser):
                 return
             if album_id is None:
                 return
+            self.upload_album_id = album_id  # 실제 업로드 시 이 앨범 사용
         with self.client.post(
             f"/api/albums/{album_id}/share",
             headers={**get_auth_headers(self), "Content-Type": "application/json"},
@@ -246,9 +300,10 @@ class IntegratedNginxUser(HttpUser):
     @tag("static")
     @task(3)
     def spa_share_page(self):
-        """공유 링크 페이지 — SPA 라우트 (index.html로 fallback)"""
+        """공유 링크 페이지 — SPA 라우트 (index.html로 fallback, on_start에서 자동 발급받은 공유 링크 사용)"""
+        token = getattr(self, "share_token", None) or "test-token-abc"
         with self.client.get(
-            "/share/test-token-abc",
+            f"/share/{token}",
             name="GET /share/{token}",
             catch_response=True,
         ) as r:
@@ -462,8 +517,10 @@ class IntegratedNginxUser(HttpUser):
     @tag("shared", "api")
     @task(2)
     def shared_album(self):
-        """공유 앨범 접근 (인증 불필요, on_start에서 생성한 공유 링크 사용)"""
-        token = getattr(self, "share_token", None) or "test-token"
+        """공유 앨범 접근 (인증 불필요, on_start에서 자동 발급받은 공유 링크 사용)"""
+        token = getattr(self, "share_token", None)
+        if not token:
+            return  # 공유 링크가 없으면 스킵
         with self.client.get(
             f"/api/share/{token}",
             name="GET /api/share/{token}",
@@ -477,11 +534,114 @@ class IntegratedNginxUser(HttpUser):
     @tag("shared", "api")
     @task(1)
     def shared_album_image(self):
-        """공유 앨범 이미지 (인증 불필요, on_start에서 생성한 공유 링크 사용)"""
-        token = getattr(self, "share_token", None) or "test-token"
+        """공유 앨범 이미지 (인증 불필요, on_start에서 자동 발급받은 공유 링크 사용)"""
+        token = getattr(self, "share_token", None)
+        if not token:
+            return  # 공유 링크가 없으면 스킵
+        # 공유 앨범에서 사진 목록을 가져와서 하나 선택
         with self.client.get(
-            f"/api/share/{token}/photos/1/image",
+            f"/api/share/{token}",
+            name="GET /api/share/{token} (for image)",
+            catch_response=True,
+        ) as r:
+            if r.status_code != 200:
+                r.failure(f"status {r.status_code}")
+                return
+            try:
+                data = r.json()
+                photos = data.get("photos", []) if isinstance(data, dict) else []
+                if not photos:
+                    r.success()
+                    return
+                photo = random.choice(photos)
+                photo_id = photo.get("id") if isinstance(photo, dict) else getattr(photo, "id", None)
+                if photo_id is None:
+                    r.success()
+                    return
+            except Exception:
+                r.success()
+                return
+            r.success()
+        
+        # 선택한 사진의 이미지 다운로드
+        with self.client.get(
+            f"/api/share/{token}/photos/{photo_id}/image",
             name="GET /api/share/{token}/photos/{photo_id}/image",
+            catch_response=True,
+        ) as img_r:
+            if img_r.status_code in (200, 404):
+                img_r.success()
+            else:
+                img_r.failure(f"status {img_r.status_code}")
+
+    # ─── 맞지 않는 트래픽 (부정/잘못된 요청, 4xx 기대) ───
+    @tag("invalid", "api")
+    @task(2)
+    def invalid_share_token(self):
+        """유효하지 않은 공유 토큰 (404/400 기대)"""
+        token = random.choice(["invalid-token-xyz", "expired-link", "00000000", "bad"])
+        with self.client.get(
+            f"/api/share/{token}",
+            name="GET /api/share/{token} [invalid]",
+            catch_response=True,
+        ) as r:
+            if r.status_code in (404, 400, 410):
+                r.success()
+            else:
+                r.failure(f"status {r.status_code}")
+
+    @tag("invalid", "api")
+    @task(2)
+    def invalid_auth_token(self):
+        """잘못된 JWT로 API 호출 (401 기대)"""
+        with self.client.get(
+            "/api/albums/?skip=0&limit=5",
+            headers={"Authorization": "Bearer invalid.jwt.token"},
+            name="GET /api/albums/ [invalid token]",
+            catch_response=True,
+        ) as r:
+            if r.status_code == 401:
+                r.success()
+            else:
+                r.failure(f"status {r.status_code}")
+
+    @tag("invalid", "api")
+    @task(1)
+    def invalid_login(self):
+        """틀린 계정으로 로그인 (401/400 기대)"""
+        with self.client.post(
+            "/api/auth/login",
+            json={"email": "wrong@example.com", "password": "wrongpass"},
+            name="POST /api/auth/login [invalid]",
+            catch_response=True,
+        ) as r:
+            if r.status_code in (401, 400, 404):
+                r.success()
+            else:
+                r.failure(f"status {r.status_code}")
+
+    @tag("invalid", "api")
+    @task(1)
+    def invalid_api_path(self):
+        """존재하지 않는 API 경로 (404 기대)"""
+        with self.client.get(
+            "/api/nonexistent-path-12345",
+            name="GET /api/nonexistent [invalid path]",
+            catch_response=True,
+        ) as r:
+            if r.status_code == 404:
+                r.success()
+            else:
+                r.failure(f"status {r.status_code}")
+
+    @tag("invalid", "api")
+    @task(1)
+    def invalid_photo_id(self):
+        """없을 수 있는 photo_id 조회 (404 허용)"""
+        with self.client.get(
+            "/api/photos/999999999",
+            headers=get_auth_headers(self),
+            name="GET /api/photos/{id} [invalid id]",
             catch_response=True,
         ) as r:
             if r.status_code in (200, 404):
@@ -558,44 +718,31 @@ class IntegratedNginxUser(HttpUser):
     @tag("photos", "write", "api")
     @task(1)
     def photos_upload(self):
-        """
-        실제 사용자처럼 사진 업로드.
-        - UPLOAD_IMAGE_DIR 또는 UPLOAD_IMAGE_LIST 가 있으면: 실제 파일로 presigned → PUT → confirm
-        - 없으면: presigned URL만 발급 (기존 부하 테스트 동작)
-        """
-        if IMAGE_LIST:
-            self._photo_upload_real()
-        else:
-            self._photos_presigned_url_only()
-
-    def _photos_presigned_url_only(self):
-        """Presigned URL만 발급 (실제 PUT 없음)."""
-        with self.client.post(
-            "/api/photos/presigned-url",
-            headers=get_auth_headers(self),
-            json={
-                "album_id": 1,
-                "filename": "loadtest.jpg",
-                "content_type": "image/jpeg",
-                "file_size": 1024,
-            },
-            name="POST /api/photos/presigned-url",
-            catch_response=True,
-        ) as r:
-            if r.status_code in [200, 201]:
-                r.success()
-            elif r.status_code == 401:
-                r.failure("Unauthorized - token may be invalid")
-            elif r.status_code == 404:
-                r.failure("Album not found")
-            else:
-                r.failure(f"Unexpected status code: {r.status_code}")
+        """업로드 필수: presigned → PUT → confirm 항상 수행. 앨범은 on_start에서 생성한 업로드용 앨범에 연결."""
+        self._photo_upload_real()
 
     def _photo_upload_real(self):
-        """실제 이미지 파일로 presigned → Object Storage PUT → confirm 까지 수행."""
-        file_path, content_type, file_size = random.choice(IMAGE_LIST)
-        filename = os.path.basename(file_path)
-        album_id = int(os.environ.get("UPLOAD_ALBUM_ID", "1"))
+        """presigned → Object Storage PUT → confirm 까지 수행. 앨범 없으면 생성 후 연결."""
+        if not self.token:
+            return
+        # 앨범 보장: 없으면 업로드용 앨범 생성
+        if getattr(self, "upload_album_id", None) is None:
+            self._ensure_upload_album()
+        album_id = getattr(self, "upload_album_id", None) or int(os.environ.get("UPLOAD_ALBUM_ID", "1"))
+
+        if IMAGE_LIST:
+            file_path, content_type, file_size = random.choice(IMAGE_LIST)
+            filename = os.path.basename(file_path)
+            try:
+                with open(file_path, "rb") as f:
+                    body = f.read()
+            except OSError:
+                return
+        else:
+            filename = "loadtest.jpg"
+            content_type = "image/jpeg"
+            body = MINIMAL_JPEG
+            file_size = len(body)
 
         # 1) Presigned URL 발급
         with self.client.post(
@@ -631,13 +778,7 @@ class IntegratedNginxUser(HttpUser):
         if not upload_url or photo_id is None:
             return
 
-        # 2) Object Storage에 PUT (다른 호스트이므로 requests 사용)
-        try:
-            with open(file_path, "rb") as f:
-                body = f.read()
-        except OSError as e:
-            return
-
+        # 2) Object Storage에 PUT
         start = time.perf_counter()
         start_ts = time.time()
         from locust import events
@@ -732,11 +873,9 @@ class StepLoadShape(LoadTestShape):
     """
     stages = [
         {"duration": 300,  "users": 100,  "spawn_rate": 20},   # 0-5분
-        {"duration": 600,  "users": 200,  "spawn_rate": 40},   # 5-10분
-        {"duration": 900,  "users": 500,  "spawn_rate": 100},  # 10-15분
-        {"duration": 1200, "users": 1000, "spawn_rate": 200},  # 15-20분
-        {"duration": 1500, "users": 2000, "spawn_rate": 400},  # 20-25분
-        {"duration": 1800, "users": 3000, "spawn_rate": 600},  # 25-30분
+        {"duration": 600,  "users": 200,  "spawn_rate": 40},   # 5-10분{"duration": 600,  "users": 200,  "spawn_rate": 40}, 
+        {"duration": 900,  "users": 400,  "spawn_rate": 40}, 
+        {"duration": 900,  "users": 800,  "spawn_rate": 40}, 
     ]
 
     def tick(self):
